@@ -2,7 +2,12 @@ module Site exposing (config)
 
 import DataSource
 import Head
+import LanguageTag
+import LanguageTag.Language
+import MimeType
 import Pages.Manifest as Manifest
+import Pages.Url
+import Path
 import Route
 import SiteConfig exposing (SiteConfig)
 
@@ -14,7 +19,7 @@ type alias Data =
 config : SiteConfig Data
 config =
     { data = data
-    , canonicalUrl = "https://elm-pages.com"
+    , canonicalUrl = "https://tkoyasak.dev"
     , manifest = manifest
     , head = head
     }
@@ -26,16 +31,38 @@ data =
 
 
 head : Data -> List Head.Tag
-head static =
-    [ Head.sitemapLink "/sitemap.xml"
+head _ =
+    [ language
+    , Head.rssLink "/feed.xml"
+    , Head.icon [ ( 100, 100 ) ] MimeType.Jpeg icon
     ]
 
 
 manifest : Data -> Manifest.Config
-manifest static =
+manifest _ =
     Manifest.init
-        { name = "Site Name"
-        , description = "Description"
+        { name = "So himagine imagine..."
+        , description = "tkoyasak's website"
         , startUrl = Route.Index |> Route.toPath
-        , icons = []
+        , icons =
+            [ { src = icon
+              , sizes = [ ( 100, 100 ) ]
+              , mimeType = Just MimeType.Jpeg
+              , purposes = [ Manifest.IconPurposeAny ]
+              }
+            ]
         }
+
+
+language : Head.Tag
+language =
+    LanguageTag.Language.ja
+        |> LanguageTag.build LanguageTag.emptySubtags
+        |> Head.rootLanguage
+
+
+icon : Pages.Url.Url
+icon =
+    [ "images", "icon.jpg" ]
+        |> Path.join
+        |> Pages.Url.fromPath
