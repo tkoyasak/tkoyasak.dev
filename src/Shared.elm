@@ -2,6 +2,10 @@ module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
 
 import Browser.Navigation
 import DataSource
+import Element exposing (..)
+import Element.Border as Border
+import Element.Font as Font
+import Element.Region as Region
 import Html exposing (Html)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
@@ -58,7 +62,7 @@ init :
             , pageUrl : Maybe PageUrl
             }
     -> ( Model, Cmd Msg )
-init navigationKey flags maybePagePath =
+init _ _ _ =
     ( { showMobileMenu = False }
     , Cmd.none
     )
@@ -70,7 +74,7 @@ update msg model =
         OnPageChange _ ->
             ( { model | showMobileMenu = False }, Cmd.none )
 
-        SharedMsg globalMsg ->
+        SharedMsg _ ->
             ( model, Cmd.none )
 
 
@@ -94,7 +98,64 @@ view :
     -> (Msg -> msg)
     -> View msg
     -> { body : Html msg, title : String }
-view sharedData page model toMsg pageView =
-    { body = Html.div [] pageView.body
+view _ _ _ _ pageView =
+    { body =
+        layout
+            [ Font.family
+                [ Font.external
+                    { name = "Fira Mono"
+                    , url = "https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap"
+                    }
+                ]
+            , width (fill |> minimum 700)
+            ]
+            (column [ width fill ]
+                [ navbar
+                , body pageView.body
+                , footer
+                ]
+            )
     , title = pageView.title
     }
+
+
+navbar : Element msg
+navbar =
+    row
+        [ Region.navigation
+        , Font.bold
+        , width fill
+        , height (px 60)
+        , spaceEvenly
+        , paddingXY 30 10
+        , Border.shadow { blur = 7, size = 1, offset = ( 0, 0 ), color = Element.rgba 0 0 0 0.2 }
+        ]
+        [ link [] { url = "/", label = text "So himagine imagine..." }
+        , menu
+        ]
+
+
+menu : Element msg
+menu =
+    row
+        [ spacing 40
+        ]
+        [ link [] { url = "/blog", label = text "Blog" }
+        , link [] { url = "/about", label = text "About" }
+        ]
+
+
+body : List (Element msg) -> Element msg
+body =
+    row
+        [ Region.mainContent
+        ]
+
+
+footer : Element msg
+footer =
+    row
+        [ Region.footer
+        , centerX
+        ]
+        [ text "© 2022 tkoyasak" ]
