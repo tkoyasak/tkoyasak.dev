@@ -12,6 +12,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
+import Site
 import View exposing (View)
 
 
@@ -123,14 +124,27 @@ navbar : Element msg
 navbar =
     row
         [ Region.navigation
-        , Font.bold
+        , Border.shadow { blur = 7, size = 1, offset = ( 0, 0 ), color = rgba 0 0 0 0.2 }
         , width fill
         , height (px 60)
-        , spaceEvenly
         , paddingXY 30 10
-        , Border.shadow { blur = 7, size = 1, offset = ( 0, 0 ), color = Element.rgba 0 0 0 0.2 }
         ]
-        [ link [] { url = "/", label = text "So himagine imagine..." }
+        [ image
+            [ width (px 42)
+            , height (px 42)
+            , Border.rounded 50
+            , clip
+            ]
+            { src = "/images/icon.jpg"
+            , description = "icon"
+            }
+        , link
+            [ Font.bold
+            , paddingXY 10 0
+            ]
+            { url = "/"
+            , label = text Site.title
+            }
         , menu
         ]
 
@@ -138,7 +152,8 @@ navbar =
 menu : Element msg
 menu =
     row
-        [ spacing 40
+        [ alignRight
+        , spacing 40
         ]
         [ link [] { url = "/blog", label = text "Blog" }
         , link [] { url = "/about", label = text "About" }
@@ -147,15 +162,19 @@ menu =
 
 body : List (Element msg) -> Element msg
 body =
-    row
+    column
         [ Region.mainContent
+        , width fill
+        , paddingXY 100 40
         ]
 
 
 footer : Element msg
 footer =
-    row
+    wrappedRow
         [ Region.footer
+        , Font.color (rgba 0 0 0 0.5)
         , centerX
         ]
-        [ text "© 2022 tkoyasak" ]
+        [ text "© 2022 tkoyasak"
+        ]

@@ -1,4 +1,4 @@
-module Site exposing (config)
+module Site exposing (config, description, iconUrl, title)
 
 import DataSource
 import Head
@@ -34,18 +34,18 @@ head : Data -> List Head.Tag
 head _ =
     [ language
     , Head.rssLink "/feed.xml"
-    , Head.icon [ ( 100, 100 ) ] MimeType.Jpeg icon
+    , Head.icon [ ( 100, 100 ) ] MimeType.Jpeg iconUrl
     ]
 
 
 manifest : Data -> Manifest.Config
 manifest _ =
     Manifest.init
-        { name = "So himagine imagine..."
-        , description = "tkoyasak's website"
+        { name = title
+        , description = description
         , startUrl = Route.Index |> Route.toPath
         , icons =
-            [ { src = icon
+            [ { src = iconUrl
               , sizes = [ ( 100, 100 ) ]
               , mimeType = Just MimeType.Jpeg
               , purposes = [ Manifest.IconPurposeAny ]
@@ -61,8 +61,18 @@ language =
         |> Head.rootLanguage
 
 
-icon : Pages.Url.Url
-icon =
+title : String
+title =
+    "tkoyasak.dev"
+
+
+description : String
+description =
+    "tkoyasak's website"
+
+
+iconUrl : Pages.Url.Url
+iconUrl =
     [ "images", "icon.jpg" ]
         |> Path.join
         |> Pages.Url.fromPath
