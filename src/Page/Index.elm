@@ -1,13 +1,17 @@
 module Page.Index exposing (Data, Model, Msg, page)
 
 import DataSource exposing (DataSource)
+import DataSource.File
 import Head
 import Head.Seo as Seo
+import Html.Styled as Html
+import Html.Styled.Attributes as Attr
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
+import Site
 import View exposing (View)
+import View.Markdown
 
 
 type alias Model =
@@ -33,31 +37,32 @@ page =
 
 data : DataSource Data
 data =
-    DataSource.succeed ()
+    DataSource.File.rawFile "content/index.md"
+        |> DataSource.map View.Markdown.toHtml
 
 
 head :
     StaticPayload Data RouteParams
     -> List Head.Tag
-head static =
+head _ =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
+        , siteName = Site.title
         , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
+            { url = Site.iconUrl
+            , alt = Site.title ++ " icon"
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = "TODO"
+        , description = Site.description
         , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+        , title = Site.title
         }
         |> Seo.website
 
 
 type alias Data =
-    ()
+    Html.Html Msg
 
 
 view :
@@ -65,5 +70,11 @@ view :
     -> Shared.Model
     -> StaticPayload Data RouteParams
     -> View Msg
-view maybeUrl sharedModel static =
-    View.placeholder "Index"
+view _ _ static =
+    { title = Site.title
+    , body =
+        [ Html.section
+            [ Attr.class "section" ]
+            [ static.data ]
+        ]
+    }
