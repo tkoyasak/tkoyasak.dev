@@ -25,12 +25,12 @@ toHtml markdown =
     of
         Ok content ->
             Html.div
-                (Attr.class "container is-max-desktop" :: styles)
+                (Attr.class "content" :: styles)
                 content
 
         Err err ->
             Html.div
-                (Attr.class "container is-max-desktop" :: styles)
+                (Attr.class "content" :: styles)
                 [ Html.text err ]
 
 
@@ -70,22 +70,22 @@ headingRender :
 headingRender heading =
     case heading.level of
         Block.H1 ->
-            Html.h1 [ Attr.class "title is-1" ] heading.children
+            Html.h1 [] heading.children
 
         Block.H2 ->
-            Html.h2 [ Attr.class "title is-2" ] heading.children
+            Html.h2 [] heading.children
 
         Block.H3 ->
-            Html.h3 [ Attr.class "title is-3" ] heading.children
+            Html.h3 [] heading.children
 
         Block.H4 ->
-            Html.h4 [ Attr.class "title is-4" ] heading.children
+            Html.h4 [] heading.children
 
         Block.H5 ->
-            Html.h5 [ Attr.class "title is-5" ] heading.children
+            Html.h5 [] heading.children
 
         Block.H6 ->
-            Html.h6 [ Attr.class "title is-6" ] heading.children
+            Html.h6 [] heading.children
 
 
 codeSpanRender : String -> Html.Html msg
@@ -173,20 +173,8 @@ orderedListRender :
     Int
     -> List (List (Html.Html msg))
     -> Html.Html msg
-orderedListRender startingIndex items =
-    let
-        listItem itemBlocks =
-            Html.li [] itemBlocks
-    in
-    Html.ol
-        (case startingIndex of
-            1 ->
-                [ Attr.start startingIndex ]
-
-            _ ->
-                []
-        )
-        (List.map listItem items)
+orderedListRender _ items =
+    Html.ol [] (List.map (Html.li []) items)
 
 
 codeBlockRender :

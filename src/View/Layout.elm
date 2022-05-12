@@ -30,7 +30,14 @@ view config body =
                 [ Css.fontFamilies [ Css.qt "Fira Mono", Css.qt "monospace" ] ]
             ]
         , navbar_ config
-        , Html.main_ [] body
+        , Html.main_ []
+            [ Html.section
+                [ Attr.class "section" ]
+                [ Html.div
+                    [ Attr.class "container is-max-desktop" ]
+                    body
+                ]
+            ]
         , footer_
         ]
 
@@ -65,7 +72,7 @@ navbar_ config =
             [ Html.div
                 [ Attr.class "navbar-brand" ]
                 [ Html.a
-                    [ Attr.class "navbar-item is-size-4 has-Html.text-weight-bold", Attr.href "/" ]
+                    [ Attr.class "navbar-item is-size-4 has-text-weight-bold", Attr.href "/" ]
                     [ Html.text Site.title ]
                 , Html.div
                     [ Attr.class ("navbar-burger burger" ++ menuState)
@@ -97,14 +104,14 @@ navbar_ config =
 footer_ : Html.Html msg
 footer_ =
     Html.footer
-        [ Attr.class "footer" ]
+        [ Attr.class "footer has-background-white" ]
         [ Html.div
             [ Attr.class "container is-max-desktop" ]
             [ Html.div
-                [ Attr.class "content has-text-right" ]
+                [ Attr.class "content has-text-right has-text-grey" ]
                 [ Html.p []
                     [ Html.text "Powered by "
-                    , Html.a [ Attr.href "https://elm-pages.com/" ] [ Html.text "elm-pages" ]
+                    , Html.a [ Attr.href "https://elm-pages.com" ] [ Html.text "elm-pages" ]
                     , Html.text ". Source is "
                     , Html.a [ Attr.href "https://github.com/tkoyasak/tkoyasak.dev" ] [ Html.text "here" ]
                     , Html.text "."

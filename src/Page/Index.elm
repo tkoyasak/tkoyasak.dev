@@ -5,7 +5,6 @@ import DataSource.File
 import Head
 import Head.Seo as Seo
 import Html.Styled as Html
-import Html.Styled.Attributes as Attr
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -72,9 +71,5 @@ view :
     -> View Msg
 view _ _ static =
     { title = Site.title
-    , body =
-        [ Html.section
-            [ Attr.class "section" ]
-            [ static.data ]
-        ]
+    , body = [ static.data ]
     }
