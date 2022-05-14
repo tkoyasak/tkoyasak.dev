@@ -36,7 +36,7 @@ page =
 
 data : DataSource Data
 data =
-    DataSource.File.rawFile "content/index.md"
+    DataSource.File.rawFile "README.md"
         |> DataSource.map View.Markdown.toHtml
 
 
