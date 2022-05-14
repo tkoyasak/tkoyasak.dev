@@ -76,7 +76,7 @@ head static =
 
 
 type alias Data =
-    { metadata : Data.Post.ArticleMetadata }
+    { metadata : Data.Post.Metadata }
 
 
 view :

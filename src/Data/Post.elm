@@ -1,4 +1,4 @@
-module Data.Post exposing (ArticleMetadata, getAllPosts, getPostById)
+module Data.Post exposing (Metadata, getAllPosts, getPostById)
 
 import Data.Api exposing (requestContent)
 import DataSource
@@ -6,7 +6,7 @@ import Date exposing (Date)
 import OptimizedDecoder as Decoder
 
 
-type alias ArticleMetadata =
+type alias Metadata =
     { id : String
     , title : String
     , summary : String
@@ -16,23 +16,23 @@ type alias ArticleMetadata =
     }
 
 
-getAllPosts : DataSource.DataSource (List ArticleMetadata)
+getAllPosts : DataSource.DataSource (List Metadata)
 getAllPosts =
     requestContent
         ("posts" ++ "?limit=100")
-        (Decoder.field "contents" (Decoder.list articleMetadataDecoder))
+        (Decoder.field "contents" (Decoder.list metadataDecoder))
 
 
-getPostById : String -> DataSource.DataSource ArticleMetadata
+getPostById : String -> DataSource.DataSource Metadata
 getPostById id =
     requestContent
         ("posts/" ++ id)
-        articleMetadataDecoder
+        metadataDecoder
 
 
-articleMetadataDecoder : Decoder.Decoder ArticleMetadata
-articleMetadataDecoder =
-    Decoder.map6 ArticleMetadata
+metadataDecoder : Decoder.Decoder Metadata
+metadataDecoder =
+    Decoder.map6 Metadata
         (Decoder.field "id" Decoder.string)
         (Decoder.field "title" Decoder.string)
         (Decoder.field "summary" Decoder.string)

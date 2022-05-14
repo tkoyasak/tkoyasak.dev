@@ -62,7 +62,7 @@ head _ =
 
 
 type alias Data =
-    List Data.Post.ArticleMetadata
+    List Data.Post.Metadata
 
 
 view :
@@ -83,7 +83,7 @@ view _ _ static =
     }
 
 
-postTile : Data.Post.ArticleMetadata -> Html.Html msg
+postTile : Data.Post.Metadata -> Html.Html msg
 postTile metadata =
     Html.a
         [ Attr.class "tile is-child box"
