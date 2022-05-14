@@ -1,6 +1,6 @@
 module Page.Blog.Posts.Slug_ exposing (..)
 
-import Cms
+import Data.Blog
 import DataSource exposing (DataSource)
 import Date
 import Head
@@ -41,12 +41,12 @@ data : RouteParams -> DataSource Data
 data route =
     DataSource.map
         (\metadata -> { metadata = metadata })
-        (Cms.getPostById route.slug)
+        (Data.Blog.getPostById route.slug)
 
 
 routes : DataSource (List RouteParams)
 routes =
-    Cms.getAllPosts
+    Data.Blog.getAllPosts
         |> DataSource.map
             (List.map (\post -> { slug = post.id }))
 
@@ -76,7 +76,7 @@ head static =
 
 
 type alias Data =
-    { metadata : Cms.ArticleMetadata }
+    { metadata : Data.Blog.ArticleMetadata }
 
 
 view :

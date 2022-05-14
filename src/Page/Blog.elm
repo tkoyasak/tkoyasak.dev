@@ -1,6 +1,6 @@
 module Page.Blog exposing (Data, Model, Msg, page)
 
-import Cms
+import Data.Blog
 import DataSource exposing (DataSource)
 import Date
 import Head
@@ -38,7 +38,7 @@ page =
 
 data : DataSource Data
 data =
-    Cms.getAllPosts
+    Data.Blog.getAllPosts
 
 
 head :
@@ -62,7 +62,7 @@ head _ =
 
 
 type alias Data =
-    List Cms.ArticleMetadata
+    List Data.Blog.ArticleMetadata
 
 
 view :
@@ -83,7 +83,7 @@ view _ _ static =
     }
 
 
-postTile : Cms.ArticleMetadata -> Html.Html msg
+postTile : Data.Blog.ArticleMetadata -> Html.Html msg
 postTile metadata =
     Html.a
         [ Attr.class "tile is-child box"
