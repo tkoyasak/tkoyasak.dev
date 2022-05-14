@@ -1,10 +1,11 @@
 module Page.About exposing (..)
 
+import Data.About
 import DataSource exposing (DataSource)
-import DataSource.File
 import Head
 import Head.Seo as Seo
 import Html.Styled as Html
+import Html.Styled.Attributes as Attr
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -36,8 +37,7 @@ page =
 
 data : DataSource Data
 data =
-    DataSource.File.rawFile "content/about.md"
-        |> DataSource.map View.Markdown.toHtml
+    Data.About.getAbout
 
 
 head :
@@ -61,7 +61,7 @@ head _ =
 
 
 type alias Data =
-    Html.Html Msg
+    Data.About.Metadata
 
 
 view :
@@ -71,5 +71,15 @@ view :
     -> View Msg
 view _ _ static =
     { title = "About"
-    , body = [ static.data ]
+    , body =
+        [ Html.div
+            [ Attr.class "tile is-ancestor is-justify-content-center" ]
+            [ Html.div
+                [ Attr.class "tile is-parent is-12" ]
+                [ Html.div
+                    [ Attr.class "tile is-child box" ]
+                    [ View.Markdown.toHtml static.data.about ]
+                ]
+            ]
+        ]
     }
