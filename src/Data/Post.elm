@@ -1,33 +1,9 @@
-module Data.Blog exposing (ArticleMetadata, getAllPosts, getPostById)
+module Data.Post exposing (ArticleMetadata, getAllPosts, getPostById)
 
+import Data.Api exposing (requestContent)
 import DataSource
-import DataSource.Http
 import Date exposing (Date)
 import OptimizedDecoder as Decoder
-import Pages.Secrets as Secrets
-
-
-blogApi : String
-blogApi =
-    "https://tkoyasak.microcms.io/api/v1/"
-
-
-requestContents :
-    String
-    -> Decoder.Decoder a
-    -> DataSource.DataSource a
-requestContents query =
-    DataSource.Http.request
-        (Secrets.succeed
-            (\apiKey ->
-                { url = blogApi ++ query
-                , method = "GET"
-                , headers = [ ( "X-MICROCMS-API-KEY", apiKey ) ]
-                , body = DataSource.Http.emptyBody
-                }
-            )
-            |> Secrets.with "API_KEY"
-        )
 
 
 type alias ArticleMetadata =
@@ -42,14 +18,14 @@ type alias ArticleMetadata =
 
 getAllPosts : DataSource.DataSource (List ArticleMetadata)
 getAllPosts =
-    requestContents
+    requestContent
         ("posts" ++ "?limit=100")
         (Decoder.field "contents" (Decoder.list articleMetadataDecoder))
 
 
 getPostById : String -> DataSource.DataSource ArticleMetadata
 getPostById id =
-    requestContents
+    requestContent
         ("posts/" ++ id)
         articleMetadataDecoder
 

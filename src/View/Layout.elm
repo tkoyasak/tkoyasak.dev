@@ -1,11 +1,5 @@
 module View.Layout exposing (view)
 
-{-| This module configures the layout.
-
-@docs view
-
--}
-
 import Css
 import Css.Global exposing (global)
 import Html.Styled as Html
@@ -90,8 +84,8 @@ navbar_ config =
                 [ Html.div
                     [ Attr.class "navbar-end" ]
                     [ Html.a
-                        [ Attr.class "navbar-item", Attr.href "/blog" ]
-                        [ Html.text "Blog" ]
+                        [ Attr.class "navbar-item", Attr.href "/post" ]
+                        [ Html.text "Post" ]
                     , Html.a
                         [ Attr.class "navbar-item", Attr.href "/about" ]
                         [ Html.text "About" ]
@@ -112,6 +106,8 @@ footer_ =
                 [ Html.p []
                     [ Html.text "Powered by "
                     , Html.a [ Attr.href "https://elm-pages.com" ] [ Html.text "elm-pages" ]
+                    , Html.text " & "
+                    , Html.a [ Attr.href "https://bulma.io" ] [ Html.text "bulma" ]
                     , Html.text ". Source is "
                     , Html.a [ Attr.href "https://github.com/tkoyasak/tkoyasak.dev" ] [ Html.text "here" ]
                     , Html.text "."

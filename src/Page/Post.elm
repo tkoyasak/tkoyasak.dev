@@ -1,6 +1,6 @@
-module Page.Blog exposing (Data, Model, Msg, page)
+module Page.Post exposing (Data, Model, Msg, page)
 
-import Data.Blog
+import Data.Post
 import DataSource exposing (DataSource)
 import Date
 import Head
@@ -38,7 +38,7 @@ page =
 
 data : DataSource Data
 data =
-    Data.Blog.getAllPosts
+    Data.Post.getAllPosts
 
 
 head :
@@ -56,13 +56,13 @@ head _ =
             }
         , description = Site.description
         , locale = Nothing
-        , title = "Blog | " ++ Site.title
+        , title = "Post | " ++ Site.title
         }
         |> Seo.website
 
 
 type alias Data =
-    List Data.Blog.ArticleMetadata
+    List Data.Post.ArticleMetadata
 
 
 view :
@@ -71,7 +71,7 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view _ _ static =
-    { title = "Blog"
+    { title = "Post"
     , body =
         [ Html.div
             [ Attr.class "tile is-ancestor is-justify-content-center" ]
@@ -83,11 +83,11 @@ view _ _ static =
     }
 
 
-postTile : Data.Blog.ArticleMetadata -> Html.Html msg
+postTile : Data.Post.ArticleMetadata -> Html.Html msg
 postTile metadata =
     Html.a
         [ Attr.class "tile is-child box"
-        , Attr.href ("/blog/posts/" ++ metadata.id)
+        , Attr.href ("/post/" ++ metadata.id)
         ]
         [ Html.div
             [ Attr.class "is-size-5" ]
