@@ -25,12 +25,9 @@ view config body =
             ]
         , navbar_ config
         , Html.main_ []
-            [ Html.section
-                [ Attr.class "section" ]
-                [ Html.div
-                    [ Attr.class "container is-max-desktop" ]
-                    body
-                ]
+            [ Html.div
+                [ Attr.class "container is-max-desktop" ]
+                body
             ]
         , footer_
         ]
@@ -102,7 +99,7 @@ footer_ =
         [ Html.div
             [ Attr.class "container is-max-desktop" ]
             [ Html.div
-                [ Attr.class "content has-text-right has-text-grey" ]
+                [ Attr.class "content has-text-right has-text-grey is-size-7-mobile" ]
                 [ Html.p []
                     [ Html.text "Powered by "
                     , Html.a [ Attr.href "https://elm-pages.com" ] [ Html.text "elm-pages" ]

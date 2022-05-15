@@ -72,14 +72,8 @@ view :
 view _ _ static =
     { title = "About"
     , body =
-        [ Html.div
-            [ Attr.class "tile is-ancestor is-justify-content-center" ]
-            [ Html.div
-                [ Attr.class "tile is-parent is-12" ]
-                [ Html.div
-                    [ Attr.class "tile is-child box" ]
-                    [ View.Markdown.toHtml static.data.about ]
-                ]
-            ]
+        [ Html.article
+            [ Attr.class "box" ]
+            [ View.Markdown.toHtml static.data.about ]
         ]
     }

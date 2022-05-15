@@ -87,14 +87,8 @@ view :
 view _ _ static =
     { title = static.data.metadata.title ++ " - " ++ Site.title
     , body =
-        [ Html.div
-            [ Attr.class "tile is-ancestor is-justify-content-center" ]
-            [ Html.div
-                [ Attr.class "tile is-parent is-12" ]
-                [ Html.div
-                    [ Attr.class "tile is-child box" ]
-                    [ View.Markdown.toHtml static.data.metadata.description ]
-                ]
-            ]
+        [ Html.article
+            [ Attr.class "box" ]
+            [ View.Markdown.toHtml static.data.metadata.description ]
         ]
     }

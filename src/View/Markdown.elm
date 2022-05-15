@@ -9,7 +9,7 @@ module View.Markdown exposing (toHtml)
 import Css
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr
-import Markdown.Block as Block exposing (Block(..))
+import Markdown.Block as Block
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
