@@ -87,8 +87,13 @@ view :
 view _ _ static =
     { title = static.data.metadata.title ++ " - " ++ Site.title
     , body =
-        [ Html.article
-            [ Attr.class "box" ]
-            [ View.Markdown.toHtml static.data.metadata.description ]
+        [ Html.h1
+            [ Attr.class "title has-text-centered" ]
+            [ Html.text static.data.metadata.title ]
+        , Html.div
+            [ Attr.class "has-text-grey-light has-text-centered" ]
+            [ Html.text (Date.format "y-MM-dd" static.data.metadata.publishedAt) ]
+        , Html.br [] []
+        , View.Markdown.toHtml static.data.metadata.description
         ]
     }

@@ -73,14 +73,11 @@ view :
 view _ _ static =
     { title = "Post"
     , body =
-        [ Html.section
-            [ Attr.class "section" ]
+        [ Html.div
+            [ Attr.class "tile is-ancestor is-justify-content-center" ]
             [ Html.div
-                [ Attr.class "tile is-ancestor is-justify-content-center" ]
-                [ Html.div
-                    [ Attr.class "tile is-parent is-vertical is-12" ]
-                    (List.map postTile static.data)
-                ]
+                [ Attr.class "tile is-parent is-12" ]
+                (List.map postTile static.data)
             ]
         ]
     }

@@ -25,9 +25,12 @@ view config body =
             ]
         , navbar_ config
         , Html.main_ []
-            [ Html.div
-                [ Attr.class "container is-max-desktop" ]
-                body
+            [ Html.section
+                [ Attr.class "section" ]
+                [ Html.div
+                    [ Attr.class "container is-max-desktop" ]
+                    body
+                ]
             ]
         , footer_
         ]
