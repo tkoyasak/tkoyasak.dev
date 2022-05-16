@@ -99,7 +99,7 @@ view _ _ static =
                 (\tagdata ->
                     Html.a
                         [ Attr.class "tag"
-                        , Attr.href ("/posts/tags/" ++ tagdata.name)
+                        , Attr.href ("/tags/" ++ tagdata.name)
                         ]
                         [ Html.text ("#" ++ tagdata.name) ]
                 )

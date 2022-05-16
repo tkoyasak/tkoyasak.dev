@@ -1,4 +1,4 @@
-module Page.Posts.Tags.Tag_ exposing (..)
+module Page.Tags.Tag_ exposing (..)
 
 import Data.Posts
 import Data.Tags
@@ -99,7 +99,7 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view _ _ static =
-    { title = "Posts"
+    { title = "Tags : #" ++ static.data.tag
     , body =
         [ Html.div
             [ Attr.class "tile is-ancestor is-justify-content-center" ]
@@ -127,7 +127,7 @@ postTile metadata =
             [ Attr.class "tags" ]
             (List.map
                 (\tagdata ->
-                    Html.text ("#" ++ tagdata.name)
+                    Html.text ("#" ++ tagdata.name ++ " ")
                 )
                 metadata.tags
             )

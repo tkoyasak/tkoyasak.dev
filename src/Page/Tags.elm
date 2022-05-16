@@ -1,4 +1,4 @@
-module Page.Posts.Tags exposing (..)
+module Page.Tags exposing (..)
 
 import Data.Tags
 import DataSource exposing (DataSource)
@@ -54,7 +54,7 @@ head _ =
             }
         , description = Site.description
         , locale = Nothing
-        , title = "Posts | " ++ Site.title
+        , title = "Tags | " ++ Site.title
         }
         |> Seo.website
 
@@ -69,19 +69,19 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view _ _ static =
-    { title = "Tags | Posts"
+    { title = "Tags"
     , body =
         [ Html.div
             [ Attr.class "tags" ]
-            (List.map postTile static.data)
+            (List.map
+                (\metadata ->
+                    Html.a
+                        [ Attr.class "tag"
+                        , Attr.href ("/tags/" ++ metadata.name)
+                        ]
+                        [ Html.text ("#" ++ metadata.name) ]
+                )
+                static.data
+            )
         ]
     }
-
-
-postTile : Data.Tags.Metadata -> Html.Html msg
-postTile metadata =
-    Html.a
-        [ Attr.class "tag"
-        , Attr.href ("/posts/tags/" ++ metadata.name)
-        ]
-        [ Html.text ("#" ++ metadata.name) ]

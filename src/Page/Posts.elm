@@ -99,7 +99,7 @@ postTile metadata =
             [ Attr.class "tags" ]
             (List.map
                 (\tagdata ->
-                    Html.text ("#" ++ tagdata.name)
+                    Html.text ("#" ++ tagdata.name ++ " ")
                 )
                 metadata.tags
             )
