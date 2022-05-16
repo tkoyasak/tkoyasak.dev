@@ -1,6 +1,7 @@
-module Data.Post exposing (Metadata, getAllPosts, getPostById)
+module Data.Posts exposing (Metadata, getAllPosts, getPostById)
 
-import Data.Api exposing (requestContent)
+import Data.Api exposing (dateDecoder, requestContent)
+import Data.Tags
 import DataSource
 import Date exposing (Date)
 import OptimizedDecoder as Decoder
@@ -9,6 +10,7 @@ import OptimizedDecoder as Decoder
 type alias Metadata =
     { id : String
     , title : String
+    , tags : List Data.Tags.Metadata
     , summary : String
     , description : String
     , publishedAt : Date
@@ -32,21 +34,11 @@ getPostById id =
 
 metadataDecoder : Decoder.Decoder Metadata
 metadataDecoder =
-    Decoder.map6 Metadata
+    Decoder.map7 Metadata
         (Decoder.field "id" Decoder.string)
         (Decoder.field "title" Decoder.string)
+        (Decoder.field "tags" (Decoder.list Data.Tags.metadataDecoder))
         (Decoder.field "summary" Decoder.string)
         (Decoder.field "description" Decoder.string)
         (Decoder.field "publishedAt" dateDecoder)
         (Decoder.field "revisedAt" dateDecoder)
-
-
-dateDecoder : Decoder.Decoder Date
-dateDecoder =
-    Decoder.string
-        |> Decoder.andThen
-            (\isoString ->
-                String.slice 0 10 isoString
-                    |> Date.fromIsoString
-                    |> Decoder.fromResult
-            )

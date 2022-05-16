@@ -1,6 +1,6 @@
-module Page.Post.Slug_ exposing (..)
+module Page.Posts.Slug_ exposing (..)
 
-import Data.Post
+import Data.Posts
 import DataSource exposing (DataSource)
 import Date
 import Head
@@ -41,12 +41,12 @@ data : RouteParams -> DataSource Data
 data route =
     DataSource.map
         (\metadata -> { metadata = metadata })
-        (Data.Post.getPostById route.slug)
+        (Data.Posts.getPostById route.slug)
 
 
 routes : DataSource (List RouteParams)
 routes =
-    Data.Post.getAllPosts
+    Data.Posts.getAllPosts
         |> DataSource.map
             (List.map (\post -> { slug = post.id }))
 
@@ -76,7 +76,7 @@ head static =
 
 
 type alias Data =
-    { metadata : Data.Post.Metadata }
+    { metadata : Data.Posts.Metadata }
 
 
 view :
@@ -93,6 +93,18 @@ view _ _ static =
         , Html.div
             [ Attr.class "has-text-grey-light has-text-centered" ]
             [ Html.text (Date.format "y-MM-dd" static.data.metadata.publishedAt) ]
+        , Html.div
+            [ Attr.class "tags is-justify-content-center" ]
+            (List.map
+                (\tagdata ->
+                    Html.a
+                        [ Attr.class "tag"
+                        , Attr.href ("/posts/tags/" ++ tagdata.name)
+                        ]
+                        [ Html.text ("#" ++ tagdata.name) ]
+                )
+                static.data.metadata.tags
+            )
         , Html.br [] []
         , View.Markdown.toHtml static.data.metadata.description
         ]

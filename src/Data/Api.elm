@@ -1,7 +1,8 @@
-module Data.Api exposing (requestContent)
+module Data.Api exposing (dateDecoder, requestContent)
 
 import DataSource
 import DataSource.Http
+import Date exposing (Date)
 import OptimizedDecoder as Decoder
 import Pages.Secrets as Secrets
 
@@ -27,3 +28,14 @@ requestContent query =
             )
             |> Secrets.with "API_KEY"
         )
+
+
+dateDecoder : Decoder.Decoder Date
+dateDecoder =
+    Decoder.string
+        |> Decoder.andThen
+            (\isoString ->
+                String.slice 0 10 isoString
+                    |> Date.fromIsoString
+                    |> Decoder.fromResult
+            )

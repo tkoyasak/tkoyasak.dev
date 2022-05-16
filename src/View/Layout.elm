@@ -84,8 +84,8 @@ navbar_ config =
                 [ Html.div
                     [ Attr.class "navbar-end" ]
                     [ Html.a
-                        [ Attr.class "navbar-item", Attr.href "/post" ]
-                        [ Html.text "Post" ]
+                        [ Attr.class "navbar-item", Attr.href "/posts" ]
+                        [ Html.text "Posts" ]
                     , Html.a
                         [ Attr.class "navbar-item", Attr.href "/about" ]
                         [ Html.text "About" ]

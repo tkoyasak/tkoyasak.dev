@@ -1,6 +1,7 @@
-module Page.Post exposing (Data, Model, Msg, page)
+module Page.Posts.Tags.Tag_ exposing (..)
 
-import Data.Post
+import Data.Posts
+import Data.Tags
 import DataSource exposing (DataSource)
 import Date
 import Head
@@ -24,21 +25,48 @@ type alias Msg =
 
 
 type alias RouteParams =
-    {}
+    { tag : String }
 
 
 page : Page RouteParams Data
 page =
-    Page.single
-        { head = head
-        , data = data
+    Page.prerender
+        { data = data
+        , routes = routes
+        , head = head
         }
         |> Page.buildNoState { view = view }
 
 
-data : DataSource Data
-data =
-    Data.Post.getAllPosts
+data : RouteParams -> DataSource.DataSource Data
+data route =
+    let
+        entries =
+            Data.Posts.getAllPosts
+                |> DataSource.map
+                    (\allPosts ->
+                        List.filter
+                            (\post ->
+                                List.member route.tag
+                                    (List.map
+                                        (\tag -> tag.name)
+                                        post.tags
+                                    )
+                            )
+                            allPosts
+                    )
+
+        target =
+            DataSource.succeed route.tag
+    in
+    DataSource.map2 Data entries target
+
+
+routes : DataSource (List RouteParams)
+routes =
+    Data.Tags.getAllTags
+        |> DataSource.map
+            (List.map (\metadata -> { tag = metadata.name }))
 
 
 head :
@@ -56,13 +84,13 @@ head _ =
             }
         , description = Site.description
         , locale = Nothing
-        , title = "Post | " ++ Site.title
+        , title = "Posts | " ++ Site.title
         }
         |> Seo.website
 
 
 type alias Data =
-    List Data.Post.Metadata
+    { entries : List Data.Posts.Metadata, tag : String }
 
 
 view :
@@ -71,23 +99,23 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view _ _ static =
-    { title = "Post"
+    { title = "Posts"
     , body =
         [ Html.div
             [ Attr.class "tile is-ancestor is-justify-content-center" ]
             [ Html.div
                 [ Attr.class "tile is-parent is-12" ]
-                (List.map postTile static.data)
+                (List.map postTile static.data.entries)
             ]
         ]
     }
 
 
-postTile : Data.Post.Metadata -> Html.Html msg
+postTile : Data.Posts.Metadata -> Html.Html msg
 postTile metadata =
     Html.a
         [ Attr.class "tile is-child box"
-        , Attr.href ("/post/" ++ metadata.id)
+        , Attr.href ("/posts/" ++ metadata.id)
         ]
         [ Html.div
             [ Attr.class "is-size-5" ]
@@ -95,6 +123,13 @@ postTile metadata =
         , Html.div
             [ Attr.class "has-text-grey-light" ]
             [ Html.text (Date.format "y-MM-dd" metadata.publishedAt) ]
-        , Html.br [] []
+        , Html.div
+            [ Attr.class "tags" ]
+            (List.map
+                (\tagdata ->
+                    Html.text ("#" ++ tagdata.name)
+                )
+                metadata.tags
+            )
         , View.Markdown.toHtml metadata.summary
         ]
