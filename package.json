@@ -15,6 +15,7 @@
     "elm-optimize-level-2": "0.2.3",
     "elm-pages": "2.1.10",
     "elm-review": "^2.5.5",
-    "elm-tooling": "^1.4.0"
+    "elm-tooling": "^1.4.0",
+    "prettier": "^2.6.2"
   }
 }
