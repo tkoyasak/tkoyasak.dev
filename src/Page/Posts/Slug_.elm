@@ -5,8 +5,6 @@ import DataSource exposing (DataSource)
 import Date
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
-import Html.Styled.Attributes as Attr
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared

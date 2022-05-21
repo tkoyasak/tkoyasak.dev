@@ -3,18 +3,14 @@ module Page.Tags.Tag_ exposing (..)
 import Data.Posts
 import Data.Tags
 import DataSource exposing (DataSource)
-import Date
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
-import Html.Styled.Attributes as Attr
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
 import View.Layout
-import View.Markdown
 
 
 type alias Model =
