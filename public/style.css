@@ -1,7 +1,7 @@
 /*
-
-terminal.css v0.7.2 | MIT License | github.com/Gioni06/terminal.css
-
+** terminal.css v0.7.2
+** MIT License (https://github.com/Gioni06/terminal.css)
+** Copyright (c) 2019 Jonas D.
 */
 
 :root {
@@ -997,36 +997,28 @@ figure > figcaption {
 }
 
 /*
-
-The following are my definitions.
-
+** The following are my definitions.
 */
 
 /* footer */
 .terminal-footer {
   text-align: center;
   color: var(--secondary-color);
-  opacity: 0.5;
+  opacity: 0.7;
   padding: 40px 0;
-}
-
-.terminal-footer span {
-  line-height: 1.8rem;
+  line-height: 1.5rem;
+  font-size: 0.8rem;
 }
 
 /* page title */
 .terminal-page-title {
   margin-bottom: 1px;
-  border-bottom: 3px dotted var(--primary-color);
-}
-
-.terminal-page-title h1 {
-  color: var(--primary-color);
+  border-bottom: 3px dotted #005bbb;
 }
 
 .terminal-page-title-divider {
   margin-bottom: 50px;
-  border-bottom: 3px dotted var(--primary-color);
+  border-bottom: 3px dotted #ffd500;
 }
 
 /* posts list */
@@ -1036,24 +1028,24 @@ The following are my definitions.
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.terminal-post-tags {
+  color: var(--secondary-color);
+  opacity: 0.7;
+}
+
 .terminal-post-tags li {
   list-style-type: none;
   padding: 0 !important;
   display: inline;
 }
 
+.terminal-post-tags li:not(:last-child) {
+  margin-right: var(--global-space);
+}
+
 .terminal-post-tags li::after,
 .terminal-post-tags li::before {
   display: none;
-}
-
-.terminal-post-tags {
-  color: var(--secondary-color);
-  opacity: 0.7;
-}
-
-.terminal-post-tags li:not(:last-child) {
-  margin-right: var(--global-space);
 }
 
 .terminal-post-tags li a {

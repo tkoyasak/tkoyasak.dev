@@ -96,8 +96,8 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view _ _ static =
-    { title = "Tags : #" ++ static.data.tag
+    { title = "Tag : #" ++ static.data.tag
     , body =
-        View.Layout.pageTitle ("Tag :: #" ++ static.data.tag)
+        View.Layout.pageTitle ("Tag : #" ++ static.data.tag)
             ++ [ View.Layout.postsList static.data.entries ]
     }
