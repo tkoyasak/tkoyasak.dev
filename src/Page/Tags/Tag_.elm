@@ -13,6 +13,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
+import View.Layout
 import View.Markdown
 
 
@@ -101,35 +102,6 @@ view :
 view _ _ static =
     { title = "Tags : #" ++ static.data.tag
     , body =
-        [ Html.div
-            [ Attr.class "tile is-ancestor is-justify-content-center" ]
-            [ Html.div
-                [ Attr.class "tile is-parent is-12" ]
-                (List.map postTile static.data.entries)
-            ]
-        ]
+        View.Layout.pageTitle ("Tag :: #" ++ static.data.tag)
+            ++ [ View.Layout.postsList static.data.entries ]
     }
-
-
-postTile : Data.Posts.Metadata -> Html.Html msg
-postTile metadata =
-    Html.a
-        [ Attr.class "tile is-child box"
-        , Attr.href ("/posts/" ++ metadata.id)
-        ]
-        [ Html.div
-            [ Attr.class "is-size-5" ]
-            [ Html.text metadata.title ]
-        , Html.div
-            [ Attr.class "has-text-grey-light" ]
-            [ Html.text (Date.format "y-MM-dd" metadata.publishedAt) ]
-        , Html.div
-            [ Attr.class "tags" ]
-            (List.map
-                (\tagdata ->
-                    Html.text ("#" ++ tagdata.name ++ " ")
-                )
-                metadata.tags
-            )
-        , View.Markdown.toHtml metadata.summary
-        ]
