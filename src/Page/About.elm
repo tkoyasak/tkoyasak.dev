@@ -4,11 +4,13 @@ import Data.About
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Html.Styled as Html
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
+import View.Layout
 import View.Markdown
 
 
@@ -70,5 +72,6 @@ view :
 view _ _ static =
     { title = "About"
     , body =
-        [ View.Markdown.toHtml static.data.about ]
+        View.Layout.pageTitle "About"
+            ++ [ Html.section [] [ View.Markdown.toHtml static.data.about ] ]
     }

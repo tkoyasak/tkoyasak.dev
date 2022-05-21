@@ -1,5 +1,11 @@
 {
-  "name": "elm-pages-app",
+  "name": "tkoyasak.dev",
+  "description": "tkoyasak's website",
+  "repository": "https://github.com/tkoyasak/tkoyasak.dev",
+  "homepage": "https://tkoyasak.dev",
+  "author": "tkoyasak",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "postinstall": "elm-tooling install",
     "start": "elm-pages dev",

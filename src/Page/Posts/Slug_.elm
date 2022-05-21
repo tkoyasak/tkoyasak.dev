@@ -12,6 +12,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
+import View.Layout
 import View.Markdown
 
 
@@ -87,25 +88,8 @@ view :
 view _ _ static =
     { title = static.data.metadata.title ++ " - " ++ Site.title
     , body =
-        [ Html.h1
-            [ Attr.class "title has-text-centered" ]
-            [ Html.text static.data.metadata.title ]
-        , Html.div
-            [ Attr.class "has-text-grey-light has-text-centered" ]
-            [ Html.text (Date.format "y-MM-dd" static.data.metadata.publishedAt) ]
-        , Html.div
-            [ Attr.class "tags is-justify-content-center" ]
-            (List.map
-                (\tagdata ->
-                    Html.a
-                        [ Attr.class "tag"
-                        , Attr.href ("/tags/" ++ tagdata.name)
-                        ]
-                        [ Html.text ("#" ++ tagdata.name) ]
-                )
-                static.data.metadata.tags
-            )
-        , Html.br [] []
-        , View.Markdown.toHtml static.data.metadata.description
-        ]
+        View.Layout.pageTitle static.data.metadata.title
+            ++ [ View.Layout.postTags static.data.metadata
+               , View.Markdown.toHtml static.data.metadata.description
+               ]
     }

@@ -1,10 +1,11 @@
-module View.Layout exposing (view)
+module View.Layout exposing (pageTitle, postTags, postsList, view)
 
-import Css
-import Css.Global exposing (global)
+import Css.Global
+import Css.Reset
+import Data.Posts
+import Date
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr
-import Html.Styled.Events as Evt
 import Site
 
 
@@ -18,20 +19,10 @@ view :
     -> Html.Html msg
 view config body =
     Html.div
-        []
-        [ global
-            [ Css.Global.body
-                [ Css.fontFamilies [ Css.qt "Fira Mono", Css.qt "monospace" ] ]
-            ]
+        [ Attr.class "terminal container" ]
+        [ Css.Global.global Css.Reset.normalize
         , navbar_ config
-        , Html.main_ []
-            [ Html.section
-                [ Attr.class "section" ]
-                [ Html.div
-                    [ Attr.class "container is-max-desktop" ]
-                    body
-                ]
-            ]
+        , Html.main_ [] body
         , footer_
         ]
 
@@ -43,52 +34,35 @@ navbar_ :
         , onCloseMenu : msg
     }
     -> Html.Html msg
-navbar_ config =
-    let
-        menuState =
-            if config.showMenu then
-                " is-active"
-
-            else
-                " burger"
-
-        menuMsg =
-            if config.showMenu then
-                config.onCloseMenu
-
-            else
-                config.onOpenMenu
-    in
-    Html.nav
-        [ Attr.class "navbar" ]
-        [ Html.div
-            [ Attr.class "container is-max-desktop" ]
+navbar_ _ =
+    Html.div
+        [ Attr.class "terminal-nav" ]
+        [ Html.header
+            [ Attr.class "navbar-logo" ]
             [ Html.div
-                [ Attr.class "navbar-brand" ]
+                [ Attr.class "logo terminal-prompt" ]
                 [ Html.a
-                    [ Attr.class "navbar-item is-size-4 has-text-weight-bold", Attr.href "/" ]
+                    [ Attr.href "/", Attr.class "no-style" ]
                     [ Html.text Site.title ]
-                , Html.div
-                    [ Attr.class ("navbar-burger burger" ++ menuState)
-                    , Attr.attribute "aria-expanded" "false"
-                    , Attr.attribute "data-target" "navMenu"
-                    , Evt.onClick menuMsg
-                    ]
-                    [ Html.span [] []
-                    , Html.span [] []
-                    , Html.span [] []
-                    ]
                 ]
-            , Html.div
-                [ Attr.class ("navbar-menu" ++ menuState), Attr.id "navMenu" ]
-                [ Html.div
-                    [ Attr.class "navbar-end" ]
+            ]
+        , Html.nav
+            [ Attr.class "terminal-menu" ]
+            [ Html.ul []
+                [ Html.li []
                     [ Html.a
-                        [ Attr.class "navbar-item", Attr.href "/posts" ]
-                        [ Html.text "Posts" ]
-                    , Html.a
-                        [ Attr.class "navbar-item", Attr.href "/about" ]
-                        [ Html.text "About" ]
+                        [ Attr.href "/posts", Attr.class "menu-item" ]
+                        [ Html.span [] [ Html.text "Posts" ] ]
+                    ]
+                , Html.li []
+                    [ Html.a
+                        [ Attr.href "/tags", Attr.class "menu-item" ]
+                        [ Html.span [] [ Html.text "Tags" ] ]
+                    ]
+                , Html.li []
+                    [ Html.a
+                        [ Attr.href "/about", Attr.class "menu-item" ]
+                        [ Html.span [] [ Html.text "About" ] ]
                     ]
                 ]
             ]
@@ -97,23 +71,63 @@ navbar_ config =
 
 footer_ : Html.Html msg
 footer_ =
-    Html.footer
-        [ Attr.class "footer has-background-white" ]
-        [ Html.div
-            [ Attr.class "container is-max-desktop" ]
-            [ Html.div
-                [ Attr.class "content has-text-right has-text-grey is-size-7-mobile" ]
-                [ Html.p []
-                    [ Html.text "Powered by "
-                    , Html.a [ Attr.href "https://elm-pages.com" ] [ Html.text "elm-pages" ]
-                    , Html.text " & "
-                    , Html.a [ Attr.href "https://bulma.io" ] [ Html.text "bulma" ]
-                    , Html.text ". Source is "
-                    , Html.a [ Attr.href "https://github.com/tkoyasak/tkoyasak.dev" ] [ Html.text "here" ]
-                    , Html.text "."
-                    , Html.br [] []
-                    , Html.text "© 2022 tkoyasak"
-                    ]
+    Html.div
+        [ Attr.class "terminal-footer" ]
+        [ Html.footer []
+            [ Html.span []
+                [ Html.text "Powered by "
+                , Html.a [ Attr.href "https://elm-pages.com" ] [ Html.text "elm-pages" ]
+                , Html.text " & "
+                , Html.a [ Attr.href "https://terminalcss.xyz" ] [ Html.text "terminal.css" ]
                 ]
+            , Html.br [] []
+            , Html.span []
+                [ Html.text "© 2022 tkoyasak" ]
             ]
         ]
+
+
+pageTitle : String -> List (Html.Html msg)
+pageTitle title =
+    [ Html.header
+        [ Attr.class "terminal-page-title" ]
+        [ Html.h1 [] [ Html.text title ] ]
+    , Html.div [ Attr.class "terminal-page-title-divider" ] []
+    ]
+
+
+postsList : List Data.Posts.Metadata -> Html.Html msg
+postsList posts =
+    Html.section [] (List.map postItem posts)
+
+
+postItem : Data.Posts.Metadata -> Html.Html msg
+postItem post =
+    Html.div
+        [ Attr.class "terminal-post-item" ]
+        [ Html.a
+            [ Attr.href ("/posts/" ++ post.id) ]
+            [ Html.h2 [] [ Html.text post.title ] ]
+        , postTags post
+        , Html.p [] [ Html.text post.summary ]
+        , Html.a
+            [ Attr.href ("/posts/" ++ post.id) ]
+            [ Html.text "Read more >" ]
+        ]
+
+
+postTags : Data.Posts.Metadata -> Html.Html msg
+postTags post =
+    Html.ul
+        [ Attr.class "terminal-post-tags" ]
+        (Html.li [] [ Html.text (Date.format "y-MM-dd |" post.publishedAt) ]
+            :: List.map
+                (\tag ->
+                    Html.li []
+                        [ Html.a
+                            [ Attr.href ("/tags/" ++ tag.name) ]
+                            [ Html.text ("#" ++ tag.name) ]
+                        ]
+                )
+                post.tags
+        )

@@ -72,5 +72,5 @@ view :
 view _ _ static =
     { title = Site.title
     , body =
-        [ static.data ]
+        [ Html.section [] [ static.data ] ]
     }

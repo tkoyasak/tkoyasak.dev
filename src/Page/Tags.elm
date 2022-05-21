@@ -11,6 +11,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
+import View.Layout
 
 
 type alias Model =
@@ -71,17 +72,20 @@ view :
 view _ _ static =
     { title = "Tags"
     , body =
-        [ Html.div
-            [ Attr.class "tags" ]
-            (List.map
-                (\metadata ->
-                    Html.a
-                        [ Attr.class "tag"
-                        , Attr.href ("/tags/" ++ metadata.name)
-                        ]
-                        [ Html.text ("#" ++ metadata.name) ]
-                )
-                static.data
-            )
-        ]
+        View.Layout.pageTitle "Tags"
+            ++ [ Html.div
+                    [ Attr.class "terminal-tags-list" ]
+                    [ Html.ul []
+                        (List.map
+                            (\metadata ->
+                                Html.li []
+                                    [ Html.a
+                                        [ Attr.href ("/tags/" ++ metadata.name) ]
+                                        [ Html.text ("#" ++ metadata.name) ]
+                                    ]
+                            )
+                            static.data
+                        )
+                    ]
+               ]
     }
