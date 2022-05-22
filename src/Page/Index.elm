@@ -25,6 +25,10 @@ type alias RouteParams =
     {}
 
 
+type alias Data =
+    Html.Html Msg
+
+
 page : Page RouteParams Data
 page =
     Page.single
@@ -58,10 +62,6 @@ head _ =
         , title = Site.title
         }
         |> Seo.website
-
-
-type alias Data =
-    Html.Html Msg
 
 
 view :

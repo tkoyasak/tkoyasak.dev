@@ -21,7 +21,7 @@ type alias Metadata =
 getAllPosts : DataSource.DataSource (List Metadata)
 getAllPosts =
     requestContent
-        ("posts" ++ "?limit=100")
+        "posts"
         (Decoder.field "contents" (Decoder.list metadataDecoder))
 
 

@@ -24,6 +24,10 @@ type alias RouteParams =
     {}
 
 
+type alias Data =
+    List Data.Posts.Metadata
+
+
 page : Page RouteParams Data
 page =
     Page.single
@@ -56,10 +60,6 @@ head _ =
         , title = "Posts | " ++ Site.title
         }
         |> Seo.website
-
-
-type alias Data =
-    List Data.Posts.Metadata
 
 
 view :

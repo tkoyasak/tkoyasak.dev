@@ -25,6 +25,10 @@ type alias RouteParams =
     { tag : String }
 
 
+type alias Data =
+    { entries : List Data.Posts.Metadata, tag : String }
+
+
 page : Page RouteParams Data
 page =
     Page.prerender
@@ -46,17 +50,17 @@ data route =
                             (\post ->
                                 List.member route.tag
                                     (List.map
-                                        (\tag -> tag.name)
+                                        (\metadata -> metadata.name)
                                         post.tags
                                     )
                             )
                             allPosts
                     )
 
-        target =
+        tag =
             DataSource.succeed route.tag
     in
-    DataSource.map2 Data entries target
+    DataSource.map2 Data entries tag
 
 
 routes : DataSource (List RouteParams)
@@ -84,10 +88,6 @@ head _ =
         , title = "Posts | " ++ Site.title
         }
         |> Seo.website
-
-
-type alias Data =
-    { entries : List Data.Posts.Metadata, tag : String }
 
 
 view :

@@ -26,6 +26,10 @@ type alias RouteParams =
     { slug : String }
 
 
+type alias Data =
+    Data.Posts.Metadata
+
+
 page : Page RouteParams Data
 page =
     Page.prerender
@@ -72,10 +76,6 @@ head static =
             , section = Nothing
             , tags = []
             }
-
-
-type alias Data =
-    Data.Posts.Metadata
 
 
 view :
