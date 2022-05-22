@@ -1,4 +1,4 @@
-module Data.Tags exposing (..)
+module Data.Tags exposing (Metadata, getAllTags, metadataDecoder)
 
 import Data.Api exposing (requestContent)
 import DataSource
@@ -22,4 +22,4 @@ metadataDecoder : Decoder.Decoder Metadata
 metadataDecoder =
     Decoder.map2 Metadata
         (Decoder.field "id" Decoder.string)
-        (Decoder.field "tag" Decoder.string)
+        (Decoder.field "name" Decoder.string)

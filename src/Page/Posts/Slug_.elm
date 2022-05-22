@@ -38,9 +38,9 @@ page =
 
 data : RouteParams -> DataSource Data
 data route =
-    DataSource.map
-        (\metadata -> { metadata = metadata })
-        (Data.Posts.getPostById route.slug)
+    Data.Posts.getPostById route.slug
+        |> DataSource.map
+            (\metadata -> metadata)
 
 
 routes : DataSource (List RouteParams)
@@ -62,20 +62,20 @@ head static =
             , mimeType = Nothing
             }
         , locale = Nothing
-        , description = static.data.metadata.description
-        , title = static.data.metadata.title ++ " - " ++ Site.title
+        , description = static.data.description
+        , title = static.data.title ++ " - " ++ Site.title
         }
         |> Seo.article
             { expirationTime = Nothing
-            , modifiedTime = Just (Date.format "y-MM-dd" static.data.metadata.revisedAt)
-            , publishedTime = Just (Date.format "y-MM-dd" static.data.metadata.publishedAt)
+            , modifiedTime = Just (Date.format "y-MM-dd" static.data.revisedAt)
+            , publishedTime = Just (Date.format "y-MM-dd" static.data.publishedAt)
             , section = Nothing
             , tags = []
             }
 
 
 type alias Data =
-    { metadata : Data.Posts.Metadata }
+    Data.Posts.Metadata
 
 
 view :
@@ -84,10 +84,10 @@ view :
     -> StaticPayload Data RouteParams
     -> View Never
 view _ _ static =
-    { title = static.data.metadata.title ++ " - " ++ Site.title
+    { title = static.data.title ++ " - " ++ Site.title
     , body =
-        View.Layout.pageTitle static.data.metadata.title
-            ++ [ View.Layout.postTags static.data.metadata
-               , View.Markdown.toHtml static.data.metadata.description
+        View.Layout.pageTitle static.data.title
+            ++ [ View.Layout.postTags static.data
+               , View.Markdown.toHtml static.data.description
                ]
     }
