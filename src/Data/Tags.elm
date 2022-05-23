@@ -1,4 +1,4 @@
-module Data.Tags exposing (Metadata, getAllTags, getReferencedTags, metadataDecoder)
+module Data.Tags exposing (Metadata, getAllTags, getUsedTags, metadataDecoder)
 
 import Data.Api exposing (requestContent)
 import DataSource
@@ -27,8 +27,8 @@ metadataDecoder =
         (Decoder.field "name" Decoder.string)
 
 
-getReferencedTags : DataSource.DataSource (List ( String, Int ))
-getReferencedTags =
+getUsedTags : DataSource.DataSource (List ( String, Int ))
+getUsedTags =
     requestContent
         "posts"
         (Decoder.field "contents"

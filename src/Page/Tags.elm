@@ -41,7 +41,7 @@ page =
 
 data : DataSource Data
 data =
-    Data.Tags.getReferencedTags
+    Data.Tags.getUsedTags
 
 
 head :
