@@ -27,7 +27,7 @@ type alias RouteParams =
 
 
 type alias Data =
-    List Data.Tags.Metadata
+    List ( String, Int )
 
 
 page : Page RouteParams Data
@@ -41,7 +41,7 @@ page =
 
 data : DataSource Data
 data =
-    Data.Tags.getAllTags
+    Data.Tags.getUsedTags
 
 
 head :
@@ -77,11 +77,12 @@ view _ _ static =
                     [ Attr.class "terminal-tags-list" ]
                     [ Html.ul []
                         (List.map
-                            (\metadata ->
+                            (\( tag, count ) ->
                                 Html.li []
                                     [ Html.a
-                                        [ Attr.href ("/tags/" ++ metadata.name) ]
-                                        [ Html.text ("#" ++ metadata.name) ]
+                                        [ Attr.href ("/tags/" ++ tag) ]
+                                        [ Html.text ("#" ++ tag) ]
+                                    , Html.text (" (" ++ String.fromInt count ++ ")")
                                     ]
                             )
                             static.data
