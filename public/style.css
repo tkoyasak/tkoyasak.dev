@@ -39,12 +39,16 @@
 
 .terminal-page-title {
   margin-bottom: 1px;
-  border-bottom: 3px dotted #005bbb;
+  border-bottom: 3px dotted var(--primary-color);
 }
 
 .terminal-page-title-divider {
   margin-bottom: 50px;
-  border-bottom: 3px dotted #ffd500;
+  border-bottom: 3px dotted var(--primary-color);
+}
+
+.terminal-page-title h1 {
+  color: var(--primary-color);
 }
 
 .terminal-post-item {
@@ -85,7 +89,7 @@
 }
 
 .terminal-tags-list li:not(:last-child) {
-  margin-right: var(--global-space);
+  margin-right: calc(var(--global-space) * 2);
 }
 
 .terminal-tags-list li::before,
