@@ -1,23 +1,17 @@
-module Data.Tags exposing (Metadata, getAllTags, getUsedTags, metadataDecoder)
+module Data.Tags exposing (Metadata, getAllTags, getTagsWithCount, metadataDecoder)
 
 import Data.Api exposing (requestContent)
 import DataSource
 import Dict
 import Dict.Extra as Dict
 import OptimizedDecoder as Decoder
+import Time exposing (ZoneName(..))
 
 
 type alias Metadata =
     { id : String
     , name : String
     }
-
-
-getAllTags : DataSource.DataSource (List Metadata)
-getAllTags =
-    requestContent
-        "tags"
-        (Decoder.field "contents" (Decoder.list metadataDecoder))
 
 
 metadataDecoder : Decoder.Decoder Metadata
@@ -27,8 +21,15 @@ metadataDecoder =
         (Decoder.field "name" Decoder.string)
 
 
-getUsedTags : DataSource.DataSource (List ( String, Int ))
-getUsedTags =
+getAllTags : DataSource.DataSource (List Metadata)
+getAllTags =
+    requestContent
+        "tags"
+        (Decoder.field "contents" (Decoder.list metadataDecoder))
+
+
+getTagsWithCount : DataSource.DataSource (List ( String, Int ))
+getTagsWithCount =
     requestContent
         "posts"
         (Decoder.field "contents"

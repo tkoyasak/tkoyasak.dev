@@ -39,7 +39,7 @@ page =
 
 data : DataSource Data
 data =
-    Data.Tags.getUsedTags
+    Data.Tags.getTagsWithCount
 
 
 head :
