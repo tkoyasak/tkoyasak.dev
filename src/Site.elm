@@ -32,7 +32,9 @@ data =
 
 head : Data -> List Head.Tag
 head _ =
-    [ language
+    [ LanguageTag.Language.ja
+        |> LanguageTag.build LanguageTag.emptySubtags
+        |> Head.rootLanguage
     , Head.rssLink "/feed.xml"
     , Head.icon [ ( 100, 100 ) ] MimeType.Jpeg iconUrl
     ]
@@ -52,13 +54,6 @@ manifest _ =
               }
             ]
         }
-
-
-language : Head.Tag
-language =
-    LanguageTag.Language.ja
-        |> LanguageTag.build LanguageTag.emptySubtags
-        |> Head.rootLanguage
 
 
 title : String

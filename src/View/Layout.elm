@@ -112,10 +112,13 @@ postTags : Data.Posts.Metadata -> Html msg
 postTags post =
     ul
         [ class "terminal-post-tags" ]
-        (li [] [ text (Date.format "y-MM-dd |" post.publishedAt) ]
+        (li
+            [ class "terminal-tag-item" ]
+            [ text (Date.format "y-MM-dd |" post.publishedAt) ]
             :: List.map
                 (\tag ->
-                    li []
+                    li
+                        [ class "terminal-tag-item" ]
                         [ a
                             [ href ("/tags/" ++ tag.name) ]
                             [ text ("#" ++ tag.name) ]
@@ -132,7 +135,8 @@ tagsList tags =
         [ ul []
             (List.map
                 (\( tag, count ) ->
-                    li []
+                    li
+                        [ class "terminal-tag-item" ]
                         [ a
                             [ href ("/tags/" ++ tag) ]
                             [ text ("#" ++ tag) ]
