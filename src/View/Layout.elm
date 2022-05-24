@@ -1,4 +1,4 @@
-module View.Layout exposing (pageTitle, postTags, postsList, view)
+module View.Layout exposing (..)
 
 import Data.Posts
 import Date
@@ -12,7 +12,7 @@ view body =
     div
         [ class "terminal container" ]
         [ navbar_
-        , Html.main_ [] body
+        , main_ [] body
         , footer_
         ]
 
@@ -36,17 +36,17 @@ navbar_ =
                 [ li []
                     [ a
                         [ href "/posts", class "menu-item" ]
-                        [ span [] [ text "Posts" ] ]
+                        [ text "Posts" ]
                     ]
                 , li []
                     [ a
                         [ href "/tags", class "menu-item" ]
-                        [ span [] [ text "Tags" ] ]
+                        [ text "Tags" ]
                     ]
                 , li []
                     [ a
                         [ href "/about", class "menu-item" ]
-                        [ span [] [ text "About" ] ]
+                        [ text "About" ]
                     ]
                 ]
             ]
@@ -60,9 +60,13 @@ footer_ =
         [ footer []
             [ span []
                 [ text "Powered by "
-                , a [ href "https://elm-pages.com" ] [ text "elm-pages" ]
+                , a
+                    [ href "https://elm-pages.com" ]
+                    [ text "elm-pages" ]
                 , text " & "
-                , a [ href "https://terminalcss.xyz" ] [ text "terminal.css" ]
+                , a
+                    [ href "https://terminalcss.xyz" ]
+                    [ text "terminal.css" ]
                 ]
             , br [] []
             , span []
@@ -71,33 +75,37 @@ footer_ =
         ]
 
 
-pageTitle : String -> List (Html msg)
+pageTitle : String -> Html msg
 pageTitle title =
-    [ header
-        [ class "terminal-page-title" ]
-        [ h1 [] [ text title ] ]
-    , div [ class "terminal-page-title-divider" ] []
-    ]
+    div []
+        [ header
+            [ class "terminal-page-title" ]
+            [ h1 [] [ text title ] ]
+        , div
+            [ class "terminal-page-title-divider" ]
+            []
+        ]
 
 
 postsList : List Data.Posts.Metadata -> Html msg
 postsList posts =
-    section [] (List.map postItem posts)
-
-
-postItem : Data.Posts.Metadata -> Html msg
-postItem post =
-    div
-        [ class "terminal-post-item" ]
-        [ a
-            [ href ("/posts/" ++ post.id) ]
-            [ h2 [] [ text post.title ] ]
-        , postTags post
-        , p [] [ text post.summary ]
-        , a
-            [ href ("/posts/" ++ post.id) ]
-            [ text "Read more >" ]
-        ]
+    section []
+        (List.map
+            (\post ->
+                div
+                    [ class "terminal-post-item" ]
+                    [ a
+                        [ href ("/posts/" ++ post.id) ]
+                        [ h2 [] [ text post.title ] ]
+                    , postTags post
+                    , p [] [ text post.summary ]
+                    , a
+                        [ href ("/posts/" ++ post.id) ]
+                        [ text "Read more >" ]
+                    ]
+            )
+            posts
+        )
 
 
 postTags : Data.Posts.Metadata -> Html msg
@@ -115,3 +123,22 @@ postTags post =
                 )
                 post.tags
         )
+
+
+tagsList : List ( String, Int ) -> Html msg
+tagsList tags =
+    section
+        [ class "terminal-tags-list" ]
+        [ ul []
+            (List.map
+                (\( tag, count ) ->
+                    li []
+                        [ a
+                            [ href ("/tags/" ++ tag) ]
+                            [ text ("#" ++ tag) ]
+                        , text (" (" ++ String.fromInt count ++ ")")
+                        ]
+                )
+                tags
+            )
+        ]

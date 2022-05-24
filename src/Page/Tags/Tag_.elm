@@ -1,4 +1,4 @@
-module Page.Tags.Tag_ exposing (..)
+module Page.Tags.Tag_ exposing (Data, Model, Msg, page)
 
 import Data.Posts
 import Data.Tags
@@ -98,6 +98,7 @@ view :
 view _ _ static =
     { title = "Tag : #" ++ static.data.tag
     , body =
-        View.Layout.pageTitle ("Tag : #" ++ static.data.tag)
-            ++ [ View.Layout.postsList static.data.entries ]
+        [ View.Layout.pageTitle ("Tag : #" ++ static.data.tag)
+        , View.Layout.postsList static.data.entries
+        ]
     }

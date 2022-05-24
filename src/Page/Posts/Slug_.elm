@@ -1,10 +1,11 @@
-module Page.Posts.Slug_ exposing (..)
+module Page.Posts.Slug_ exposing (Data, Model, Msg, page)
 
 import Data.Posts
 import DataSource exposing (DataSource)
 import Date
 import Head
 import Head.Seo as Seo
+import Html.Lazy exposing (lazy)
 import Markdown
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -74,7 +75,7 @@ head static =
             , modifiedTime = Just (Date.format "y-MM-dd" static.data.revisedAt)
             , publishedTime = Just (Date.format "y-MM-dd" static.data.publishedAt)
             , section = Nothing
-            , tags = []
+            , tags = List.map (\metadata -> metadata.name) static.data.tags
             }
 
 
@@ -86,8 +87,8 @@ view :
 view _ _ static =
     { title = static.data.title ++ " - " ++ Site.title
     , body =
-        View.Layout.pageTitle static.data.title
-            ++ [ View.Layout.postTags static.data
-               , Markdown.toHtml [] static.data.description
-               ]
+        [ View.Layout.pageTitle static.data.title
+        , View.Layout.postTags static.data
+        , lazy (Markdown.toHtml []) static.data.description
+        ]
     }

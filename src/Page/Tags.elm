@@ -1,11 +1,9 @@
-module Page.Tags exposing (..)
+module Page.Tags exposing (Data, Model, Msg, page)
 
 import Data.Tags
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html exposing (a, div, li, text, ul)
-import Html.Attributes exposing (class, href)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -72,21 +70,7 @@ view :
 view _ _ static =
     { title = "Tags"
     , body =
-        View.Layout.pageTitle "Tags"
-            ++ [ div
-                    [ class "terminal-tags-list" ]
-                    [ ul []
-                        (List.map
-                            (\( tag, count ) ->
-                                li []
-                                    [ a
-                                        [ href ("/tags/" ++ tag) ]
-                                        [ text ("#" ++ tag) ]
-                                    , text (" (" ++ String.fromInt count ++ ")")
-                                    ]
-                            )
-                            static.data
-                        )
-                    ]
-               ]
+        [ View.Layout.pageTitle "Tags"
+        , View.Layout.tagsList static.data
+        ]
     }
