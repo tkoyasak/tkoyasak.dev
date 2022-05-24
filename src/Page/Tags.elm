@@ -4,8 +4,8 @@ import Data.Tags
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
-import Html.Styled.Attributes as Attr
+import Html exposing (a, div, li, text, ul)
+import Html.Attributes exposing (class, href)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -73,16 +73,16 @@ view _ _ static =
     { title = "Tags"
     , body =
         View.Layout.pageTitle "Tags"
-            ++ [ Html.div
-                    [ Attr.class "terminal-tags-list" ]
-                    [ Html.ul []
+            ++ [ div
+                    [ class "terminal-tags-list" ]
+                    [ ul []
                         (List.map
                             (\( tag, count ) ->
-                                Html.li []
-                                    [ Html.a
-                                        [ Attr.href ("/tags/" ++ tag) ]
-                                        [ Html.text ("#" ++ tag) ]
-                                    , Html.text (" (" ++ String.fromInt count ++ ")")
+                                li []
+                                    [ a
+                                        [ href ("/tags/" ++ tag) ]
+                                        [ text ("#" ++ tag) ]
+                                    , text (" (" ++ String.fromInt count ++ ")")
                                     ]
                             )
                             static.data

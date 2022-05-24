@@ -4,14 +4,14 @@ import Data.About
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
+import Html exposing (Html)
+import Markdown
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
 import View.Layout
-import View.Markdown
 
 
 type alias Model =
@@ -73,5 +73,5 @@ view _ _ static =
     { title = "About"
     , body =
         View.Layout.pageTitle "About"
-            ++ [ Html.section [] [ View.Markdown.toHtml static.data.about ] ]
+            ++ [ Html.section [] [ Markdown.toHtml [] static.data.about ] ]
     }

@@ -5,13 +5,13 @@ import DataSource exposing (DataSource)
 import Date
 import Head
 import Head.Seo as Seo
+import Markdown
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
 import View.Layout
-import View.Markdown
 
 
 type alias Model =
@@ -88,6 +88,6 @@ view _ _ static =
     , body =
         View.Layout.pageTitle static.data.title
             ++ [ View.Layout.postTags static.data
-               , View.Markdown.toHtml static.data.description
+               , Markdown.toHtml [] static.data.description
                ]
     }

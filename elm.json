@@ -20,9 +20,8 @@
             "elm/time": "1.0.0",
             "elm/url": "1.0.0",
             "elm-community/dict-extra": "2.4.0",
-            "justinmimbs/date": "3.2.1",
-            "rtfeldman/elm-css": "17.1.1",
-            "y047aka/elm-reset-css": "2.6.0"
+            "elm-explorations/markdown": "1.0.0",
+            "justinmimbs/date": "3.2.1"
         },
         "indirect": {
             "MartinSStewart/elm-serialize": "1.2.6",

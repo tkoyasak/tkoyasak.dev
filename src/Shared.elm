@@ -1,9 +1,8 @@
-module Shared exposing (Data, Model, Msg(..), template)
+module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
 
 import Browser.Navigation
 import DataSource
-import Html
-import Html.Styled
+import Html exposing (Html)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
@@ -38,13 +37,11 @@ type alias Data =
 
 
 type SharedMsg
-    = UserOpenMenu
-    | UserCloseMenu
+    = NoOp
 
 
 type alias Model =
-    { showMenu : Bool
-    }
+    {}
 
 
 init :
@@ -62,22 +59,17 @@ init :
             }
     -> ( Model, Cmd Msg )
 init _ _ _ =
-    ( { showMenu = False }
-    , Cmd.none
-    )
+    ( {}, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         OnPageChange _ ->
-            ( { model | showMenu = False }, Cmd.none )
+            ( {}, Cmd.none )
 
-        SharedMsg UserOpenMenu ->
-            ( { model | showMenu = True }, Cmd.none )
-
-        SharedMsg UserCloseMenu ->
-            ( { model | showMenu = False }, Cmd.none )
+        SharedMsg _ ->
+            ( model, Cmd.none )
 
 
 subscriptions : Path -> Model -> Sub Msg
@@ -99,15 +91,8 @@ view :
     -> Model
     -> (Msg -> msg)
     -> View msg
-    -> { body : Html.Html msg, title : String }
-view _ _ model toMsg pageView =
-    { body =
-        View.Layout.view
-            { showMenu = model.showMenu
-            , onCloseMenu = SharedMsg UserCloseMenu |> toMsg
-            , onOpenMenu = SharedMsg UserOpenMenu |> toMsg
-            }
-            pageView.body
-            |> Html.Styled.toUnstyled
+    -> { body : Html msg, title : String }
+view _ _ _ _ pageView =
+    { body = View.Layout.view pageView.body
     , title = pageView.title
     }

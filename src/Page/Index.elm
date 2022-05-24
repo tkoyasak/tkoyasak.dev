@@ -4,13 +4,13 @@ import DataSource exposing (DataSource)
 import DataSource.File
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
+import Html exposing (Html)
+import Markdown
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
-import View.Markdown
 
 
 type alias Model =
@@ -26,7 +26,7 @@ type alias RouteParams =
 
 
 type alias Data =
-    Html.Html Msg
+    Html Msg
 
 
 page : Page RouteParams Data
@@ -41,7 +41,7 @@ page =
 data : DataSource Data
 data =
     DataSource.File.rawFile "README.md"
-        |> DataSource.map View.Markdown.toHtml
+        |> DataSource.map (Markdown.toHtml [])
 
 
 head :
