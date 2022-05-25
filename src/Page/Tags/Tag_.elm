@@ -1,4 +1,4 @@
-module Page.Tags.Tag_ exposing (..)
+module Page.Tags.Tag_ exposing (Data, Model, Msg, page)
 
 import Data.Posts
 import Data.Tags
@@ -41,26 +41,10 @@ page =
 
 data : RouteParams -> DataSource.DataSource Data
 data route =
-    let
-        entries =
-            Data.Posts.getAllPosts
-                |> DataSource.map
-                    (\allPosts ->
-                        List.filter
-                            (\post ->
-                                List.member route.tag
-                                    (List.map
-                                        (\metadata -> metadata.name)
-                                        post.tags
-                                    )
-                            )
-                            allPosts
-                    )
-
-        tag =
-            DataSource.succeed route.tag
-    in
-    DataSource.map2 Data entries tag
+    DataSource.map2
+        Data
+        (Data.Posts.getPostsByTag route.tag)
+        (DataSource.succeed route.tag)
 
 
 routes : DataSource (List RouteParams)
@@ -98,6 +82,7 @@ view :
 view _ _ static =
     { title = "Tag : #" ++ static.data.tag
     , body =
-        View.Layout.pageTitle ("Tag : #" ++ static.data.tag)
-            ++ [ View.Layout.postsList static.data.entries ]
+        [ View.Layout.pageTitle ("Tag : #" ++ static.data.tag)
+        , View.Layout.postsList static.data.entries
+        ]
     }

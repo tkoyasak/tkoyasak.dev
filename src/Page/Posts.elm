@@ -70,6 +70,7 @@ view :
 view _ _ static =
     { title = "Posts"
     , body =
-        View.Layout.pageTitle "Posts"
-            ++ [ View.Layout.postsList static.data ]
+        [ View.Layout.pageTitle "Posts"
+        , View.Layout.postsList static.data
+        ]
     }

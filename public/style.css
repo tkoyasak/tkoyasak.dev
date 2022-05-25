@@ -1,9 +1,15 @@
 /*
+** normalize.css v8.0.1
+** MIT License (https://github.com/necolas/normalize.css)
+** Copyright (c) Nicolas Gallagher and Jonathan Neal
+*/
+@import url("https://unpkg.com/normalize.css@8.0.1/normalize.css");
+
+/*
 ** terminal.css v0.7.2
 ** MIT License (https://github.com/Gioni06/terminal.css)
 ** Copyright (c) 2019 Jonas D.
 */
-
 @import url("https://unpkg.com/terminal.css@0.7.2/dist/terminal.min.css");
 
 :root {
@@ -23,7 +29,7 @@
   --error-color: #ff3c74;
   --progress-bar-background: #3f3f44;
   --progress-bar-fill: #62c4ff;
-  --code-bg-color: #3f3f44;
+  --code-bg-color: #36363b;
   --input-style: solid;
   --display-h1-decoration: none;
 }
@@ -38,13 +44,13 @@
 }
 
 .terminal-page-title {
-  margin-bottom: 1px;
+  margin-bottom: 2px;
   border-bottom: 3px dotted var(--primary-color);
 }
 
 .terminal-page-title-divider {
-  margin-bottom: 50px;
-  border-bottom: 3px dotted var(--primary-color);
+  margin-bottom: 30px;
+  border-top: 3px dotted var(--primary-color);
 }
 
 .terminal-page-title h1 {
@@ -95,4 +101,16 @@
 .terminal-tags-list li::before,
 .terminal-tags-list li::after {
   display: none;
+}
+
+.terminal-tag-item {
+  white-space: nowrap;
+}
+
+pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: var(--font-color);
+  background: var(--code-bg-color) !important;
 }

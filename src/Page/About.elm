@@ -1,17 +1,17 @@
-module Page.About exposing (..)
+module Page.About exposing (Data, Model, Msg, page)
 
 import Data.About
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
+import Html.Lazy exposing (lazy)
+import Markdown
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Site
 import View exposing (View)
 import View.Layout
-import View.Markdown
 
 
 type alias Model =
@@ -72,6 +72,7 @@ view :
 view _ _ static =
     { title = "About"
     , body =
-        View.Layout.pageTitle "About"
-            ++ [ Html.section [] [ View.Markdown.toHtml static.data.about ] ]
+        [ View.Layout.pageTitle "About"
+        , lazy (Markdown.toHtml []) static.data.about
+        ]
     }

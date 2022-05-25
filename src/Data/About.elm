@@ -12,15 +12,15 @@ type alias Metadata =
     }
 
 
-getAbout : DataSource.DataSource Metadata
-getAbout =
-    requestContent
-        "about"
-        metadataDecoder
-
-
 metadataDecoder : Decoder.Decoder Metadata
 metadataDecoder =
     Decoder.map2 Metadata
         (Decoder.field "about" Decoder.string)
         (Decoder.field "revisedAt" dateDecoder)
+
+
+getAbout : DataSource.DataSource Metadata
+getAbout =
+    requestContent
+        "about"
+        metadataDecoder

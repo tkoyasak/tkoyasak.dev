@@ -1,4 +1,4 @@
-module Data.Posts exposing (Metadata, getAllPosts, getPostById)
+module Data.Posts exposing (Metadata, getAllPosts, getPostById, getPostsByTag)
 
 import Data.Api exposing (dateDecoder, requestContent)
 import Data.Tags
@@ -18,6 +18,18 @@ type alias Metadata =
     }
 
 
+metadataDecoder : Decoder.Decoder Metadata
+metadataDecoder =
+    Decoder.map7 Metadata
+        (Decoder.field "id" Decoder.string)
+        (Decoder.field "title" Decoder.string)
+        (Decoder.field "tags" (Decoder.list Data.Tags.metadataDecoder))
+        (Decoder.field "summary" Decoder.string)
+        (Decoder.field "description" Decoder.string)
+        (Decoder.field "publishedAt" dateDecoder)
+        (Decoder.field "revisedAt" dateDecoder)
+
+
 getAllPosts : DataSource.DataSource (List Metadata)
 getAllPosts =
     requestContent
@@ -32,13 +44,20 @@ getPostById id =
         metadataDecoder
 
 
-metadataDecoder : Decoder.Decoder Metadata
-metadataDecoder =
-    Decoder.map7 Metadata
-        (Decoder.field "id" Decoder.string)
-        (Decoder.field "title" Decoder.string)
-        (Decoder.field "tags" (Decoder.list Data.Tags.metadataDecoder))
-        (Decoder.field "summary" Decoder.string)
-        (Decoder.field "description" Decoder.string)
-        (Decoder.field "publishedAt" dateDecoder)
-        (Decoder.field "revisedAt" dateDecoder)
+getPostsByTag : String -> DataSource.DataSource (List Metadata)
+getPostsByTag name =
+    requestContent
+        "posts"
+        (Decoder.field "contents" (Decoder.list metadataDecoder))
+        |> DataSource.map
+            (\allPosts ->
+                List.filter
+                    (\post ->
+                        List.member name
+                            (List.map
+                                (\metadata -> metadata.name)
+                                post.tags
+                            )
+                    )
+                    allPosts
+            )

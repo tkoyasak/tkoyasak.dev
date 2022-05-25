@@ -1,133 +1,148 @@
-module View.Layout exposing (pageTitle, postTags, postsList, view)
+module View.Layout exposing (..)
 
-import Css.Global
-import Css.Reset
 import Data.Posts
 import Date
-import Html.Styled as Html
-import Html.Styled.Attributes as Attr
+import Html exposing (Html, a, br, div, footer, h1, h2, header, li, main_, nav, p, section, span, text, ul)
+import Html.Attributes exposing (class, href)
 import Site
 
 
-view :
-    { a
-        | showMenu : Bool
-        , onOpenMenu : msg
-        , onCloseMenu : msg
-    }
-    -> List (Html.Html msg)
-    -> Html.Html msg
-view config body =
-    Html.div
-        [ Attr.class "terminal container" ]
-        [ Css.Global.global Css.Reset.normalize
-        , navbar_ config
-        , Html.main_ [] body
+view : List (Html msg) -> Html msg
+view body =
+    div
+        [ class "terminal container" ]
+        [ navbar_
+        , main_ [] body
         , footer_
         ]
 
 
-navbar_ :
-    { a
-        | showMenu : Bool
-        , onOpenMenu : msg
-        , onCloseMenu : msg
-    }
-    -> Html.Html msg
-navbar_ _ =
-    Html.div
-        [ Attr.class "terminal-nav" ]
-        [ Html.header
-            [ Attr.class "navbar-logo" ]
-            [ Html.div
-                [ Attr.class "logo terminal-prompt" ]
-                [ Html.a
-                    [ Attr.href "/", Attr.class "no-style" ]
-                    [ Html.text Site.title ]
+navbar_ : Html msg
+navbar_ =
+    div
+        [ class "terminal-nav" ]
+        [ header
+            [ class "navbar-logo" ]
+            [ div
+                [ class "logo terminal-prompt" ]
+                [ a
+                    [ href "/", class "no-style" ]
+                    [ text Site.title ]
                 ]
             ]
-        , Html.nav
-            [ Attr.class "terminal-menu" ]
-            [ Html.ul []
-                [ Html.li []
-                    [ Html.a
-                        [ Attr.href "/posts", Attr.class "menu-item" ]
-                        [ Html.span [] [ Html.text "Posts" ] ]
+        , nav
+            [ class "terminal-menu" ]
+            [ ul []
+                [ li []
+                    [ a
+                        [ href "/posts", class "menu-item" ]
+                        [ text "Posts" ]
                     ]
-                , Html.li []
-                    [ Html.a
-                        [ Attr.href "/tags", Attr.class "menu-item" ]
-                        [ Html.span [] [ Html.text "Tags" ] ]
+                , li []
+                    [ a
+                        [ href "/tags", class "menu-item" ]
+                        [ text "Tags" ]
                     ]
-                , Html.li []
-                    [ Html.a
-                        [ Attr.href "/about", Attr.class "menu-item" ]
-                        [ Html.span [] [ Html.text "About" ] ]
+                , li []
+                    [ a
+                        [ href "/about", class "menu-item" ]
+                        [ text "About" ]
                     ]
                 ]
             ]
         ]
 
 
-footer_ : Html.Html msg
+footer_ : Html msg
 footer_ =
-    Html.div
-        [ Attr.class "terminal-footer" ]
-        [ Html.footer []
-            [ Html.span []
-                [ Html.text "Powered by "
-                , Html.a [ Attr.href "https://elm-pages.com" ] [ Html.text "elm-pages" ]
-                , Html.text " & "
-                , Html.a [ Attr.href "https://terminalcss.xyz" ] [ Html.text "terminal.css" ]
+    div
+        [ class "terminal-footer" ]
+        [ footer []
+            [ span []
+                [ text "Powered by "
+                , a
+                    [ href "https://elm-pages.com" ]
+                    [ text "elm-pages" ]
+                , text " & "
+                , a
+                    [ href "https://terminalcss.xyz" ]
+                    [ text "terminal.css" ]
                 ]
-            , Html.br [] []
-            , Html.span []
-                [ Html.text "© 2022 tkoyasak" ]
+            , br [] []
+            , span []
+                [ text "© 2022 tkoyasak" ]
             ]
         ]
 
 
-pageTitle : String -> List (Html.Html msg)
+pageTitle : String -> Html msg
 pageTitle title =
-    [ Html.header
-        [ Attr.class "terminal-page-title" ]
-        [ Html.h1 [] [ Html.text title ] ]
-    , Html.div [ Attr.class "terminal-page-title-divider" ] []
-    ]
-
-
-postsList : List Data.Posts.Metadata -> Html.Html msg
-postsList posts =
-    Html.section [] (List.map postItem posts)
-
-
-postItem : Data.Posts.Metadata -> Html.Html msg
-postItem post =
-    Html.div
-        [ Attr.class "terminal-post-item" ]
-        [ Html.a
-            [ Attr.href ("/posts/" ++ post.id) ]
-            [ Html.h2 [] [ Html.text post.title ] ]
-        , postTags post
-        , Html.p [] [ Html.text post.summary ]
-        , Html.a
-            [ Attr.href ("/posts/" ++ post.id) ]
-            [ Html.text "Read more >" ]
+    div []
+        [ header
+            [ class "terminal-page-title" ]
+            [ h1 [] [ text title ] ]
+        , div
+            [ class "terminal-page-title-divider" ]
+            []
         ]
 
 
-postTags : Data.Posts.Metadata -> Html.Html msg
+postsList : List Data.Posts.Metadata -> Html msg
+postsList posts =
+    section []
+        (List.map
+            (\post ->
+                div
+                    [ class "terminal-post-item" ]
+                    [ a
+                        [ href ("/posts/" ++ post.id) ]
+                        [ h2 [] [ text post.title ] ]
+                    , postTags post
+                    , p [] [ text post.summary ]
+                    , a
+                        [ href ("/posts/" ++ post.id) ]
+                        [ text "Read more >" ]
+                    ]
+            )
+            posts
+        )
+
+
+postTags : Data.Posts.Metadata -> Html msg
 postTags post =
-    Html.ul
-        [ Attr.class "terminal-post-tags" ]
-        (Html.li [] [ Html.text (Date.format "y-MM-dd |" post.publishedAt) ]
+    ul
+        [ class "terminal-post-tags" ]
+        (li
+            [ class "terminal-tag-item" ]
+            [ text (Date.format "y-MM-dd |" post.publishedAt) ]
             :: List.map
                 (\tag ->
-                    Html.li []
-                        [ Html.a
-                            [ Attr.href ("/tags/" ++ tag.name) ]
-                            [ Html.text ("#" ++ tag.name) ]
+                    li
+                        [ class "terminal-tag-item" ]
+                        [ a
+                            [ href ("/tags/" ++ tag.name) ]
+                            [ text ("#" ++ tag.name) ]
                         ]
                 )
                 post.tags
         )
+
+
+tagsList : List ( String, Int ) -> Html msg
+tagsList tags =
+    section
+        [ class "terminal-tags-list" ]
+        [ ul []
+            (List.map
+                (\( tag, count ) ->
+                    li
+                        [ class "terminal-tag-item" ]
+                        [ a
+                            [ href ("/tags/" ++ tag) ]
+                            [ text ("#" ++ tag) ]
+                        , text (" (" ++ String.fromInt count ++ ")")
+                        ]
+                )
+                tags
+            )
+        ]

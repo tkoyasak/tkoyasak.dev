@@ -1,11 +1,9 @@
-module Page.Tags exposing (..)
+module Page.Tags exposing (Data, Model, Msg, page)
 
 import Data.Tags
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
-import Html.Styled.Attributes as Attr
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -41,7 +39,7 @@ page =
 
 data : DataSource Data
 data =
-    Data.Tags.getUsedTags
+    Data.Tags.getTagsWithCount
 
 
 head :
@@ -72,21 +70,7 @@ view :
 view _ _ static =
     { title = "Tags"
     , body =
-        View.Layout.pageTitle "Tags"
-            ++ [ Html.div
-                    [ Attr.class "terminal-tags-list" ]
-                    [ Html.ul []
-                        (List.map
-                            (\( tag, count ) ->
-                                Html.li []
-                                    [ Html.a
-                                        [ Attr.href ("/tags/" ++ tag) ]
-                                        [ Html.text ("#" ++ tag) ]
-                                    , Html.text (" (" ++ String.fromInt count ++ ")")
-                                    ]
-                            )
-                            static.data
-                        )
-                    ]
-               ]
+        [ View.Layout.pageTitle "Tags"
+        , View.Layout.tagsList static.data
+        ]
     }
