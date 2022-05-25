@@ -9,7 +9,10 @@
   "scripts": {
     "postinstall": "elm-tooling install",
     "start": "elm-pages dev",
-    "build": "elm-pages build"
+    "build": "elm-pages build",
+    "lint": "npm run elm-format & npm run prettier",
+    "elm-format": "elm-format --yes src/",
+    "prettier": "npx prettier -w public/"
   },
   "devDependencies": {
     "elm-optimize-level-2": "0.2.3",
