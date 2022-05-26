@@ -1,0 +1,42 @@
+name: Github Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache packages
+        uses: actions/cache@v2
+        with:
+          key: cache-${{ hashFiles('package-lock.json') }}-${{ hashFiles('elm.json') }}
+          restore-keys: |
+            cache-${{ hashFiles('package-lock.json') }}-
+            cache-
+          path: |
+            node_modules
+            elm-stuff
+            .elm-pages
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 17.9.0
+      - name: Install dependencies
+        run: npm ci
+      - name: Build elm-pages
+        run: npm run build
+        env:
+          API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+      - name: Deploy to github-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
