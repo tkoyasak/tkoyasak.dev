@@ -112,5 +112,5 @@ pre code {
   overflow-x: auto;
   padding: 0.5em;
   color: var(--font-color);
-  background: var(--code-bg-color) !important;
+  background: var(--background-color) !important;
 }
