@@ -4,6 +4,7 @@ import Data.About
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Html.Attributes exposing (class)
 import Html.Lazy exposing (lazy)
 import Markdown
 import Page exposing (Page, StaticPayload)
@@ -73,6 +74,6 @@ view _ _ static =
     { title = "About"
     , body =
         [ View.Layout.pageTitle "About"
-        , lazy (Markdown.toHtml []) static.data.about
+        , lazy (Markdown.toHtml [ class "post-content" ]) static.data.about
         ]
     }
