@@ -1,11 +1,10 @@
 module Page.Index exposing (Data, Model, Msg, page)
 
 import DataSource exposing (DataSource)
-import DataSource.File
 import Head
 import Head.Seo as Seo
-import Html exposing (Html)
-import Markdown
+import Html exposing (br, h2, section, text)
+import Html.Attributes exposing (class)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -26,7 +25,7 @@ type alias RouteParams =
 
 
 type alias Data =
-    Html Msg
+    ()
 
 
 page : Page RouteParams Data
@@ -40,8 +39,7 @@ page =
 
 data : DataSource Data
 data =
-    DataSource.File.rawFile "README.md"
-        |> DataSource.map (Markdown.toHtml [])
+    DataSource.succeed ()
 
 
 head :
@@ -69,8 +67,12 @@ view :
     -> Shared.Model
     -> StaticPayload Data RouteParams
     -> View Msg
-view _ _ static =
+view _ _ _ =
     { title = Site.title
     , body =
-        [ Html.section [] [ static.data ] ]
+        [ section []
+            [ h2 [] [ text "Welcome!" ]
+            , text "This is tkoyasak.dev."
+            ]
+        ]
     }
