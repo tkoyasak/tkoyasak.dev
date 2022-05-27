@@ -107,10 +107,24 @@
   white-space: nowrap;
 }
 
+.terminal-footer a,
+.post-content a {
+  color: inherit;
+  text-decoration-style: dotted;
+  text-decoration-line: underline;
+  text-decoration-color: var(--primary-color);
+}
+
+.terminal-footer a:hover,
+.post-content a:hover {
+  background-color: inherit;
+  color: inherit;
+}
+
 pre code {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
   color: var(--font-color);
-  background: var(--background-color) !important;
+  background-color: var(--background-color) !important;
 }
