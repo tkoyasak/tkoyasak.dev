@@ -2,7 +2,7 @@
 
 ## Dev
 - Run dev server : `npm start`
-- Access localhost:1234 in browser
+- Access http://localhost:1234 in browser
 
 ## Credits
 - This website is built with [elm-pages](https://github.com/dillonkearns/elm-pages).
