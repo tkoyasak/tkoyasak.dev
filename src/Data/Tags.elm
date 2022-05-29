@@ -5,7 +5,6 @@ import DataSource
 import Dict
 import Dict.Extra as Dict
 import OptimizedDecoder as Decoder
-import Time exposing (ZoneName(..))
 
 
 type alias Metadata =

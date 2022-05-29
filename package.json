@@ -10,11 +10,13 @@
     "postinstall": "elm-tooling install",
     "start": "elm-pages dev",
     "build": "elm-pages build",
+    "review": "npx elm-review --template jfmengels/elm-review-unused/example",
     "lint": "npm run elm-format & npm run prettier",
     "elm-format": "elm-format --yes src/",
     "prettier": "npx prettier -w public/ .github/"
   },
   "devDependencies": {
+    "elm-json": "^0.2.12",
     "elm-optimize-level-2": "0.2.3",
     "elm-pages": "2.1.10",
     "elm-review": "^2.5.5",

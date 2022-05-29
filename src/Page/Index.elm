@@ -3,8 +3,7 @@ module Page.Index exposing (Data, Model, Msg, page)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html exposing (br, h2, section, text)
-import Html.Attributes exposing (class)
+import Html exposing (h2, section, text)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
