@@ -21,7 +21,7 @@ routes _ _ =
         , siteUrl = "https://tkoyasak.dev"
         , title = Site.title
         , builtAt = Pages.builtAt
-        , indexPage = [ "/" ]
+        , indexPage = [ "" ]
         }
         postsDataSource
     ]

@@ -37,7 +37,6 @@
 .terminal-footer {
   text-align: center;
   color: var(--secondary-color);
-  opacity: 0.7;
   padding: 40px 0;
   line-height: 1.5rem;
   font-size: 0.8rem;
@@ -65,7 +64,6 @@
 
 .terminal-post-tags {
   color: var(--secondary-color);
-  opacity: 0.7;
 }
 
 .terminal-post-tags li {
