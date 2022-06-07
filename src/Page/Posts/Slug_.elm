@@ -6,7 +6,6 @@ import Date
 import Head
 import Head.Seo as Seo
 import Html.Attributes exposing (class)
-import Html.Lazy exposing (lazy)
 import Markdown
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -90,6 +89,6 @@ view _ _ static =
     , body =
         [ View.Layout.pageTitle static.data.title
         , View.Layout.postTags static.data
-        , lazy (Markdown.toHtml [ class "post-content" ]) static.data.description
+        , Markdown.toHtml [ class "post-content" ] static.data.description
         ]
     }
