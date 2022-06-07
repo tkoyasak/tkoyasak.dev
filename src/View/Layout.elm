@@ -3,7 +3,7 @@ module View.Layout exposing (..)
 import Data.Posts
 import Date
 import Html exposing (Html, a, br, div, footer, h1, h2, header, li, main_, nav, p, section, span, text, ul)
-import Html.Attributes exposing (class, href)
+import Html.Attributes exposing (class, href, rel, target)
 import Site
 
 
@@ -61,11 +61,17 @@ footer_ =
             [ span []
                 [ text "Powered by "
                 , a
-                    [ href "https://elm-pages.com" ]
+                    [ href "https://elm-pages.com"
+                    , target "_blank"
+                    , rel "noopener noreferrer"
+                    ]
                     [ text "elm-pages" ]
                 , text " & "
                 , a
-                    [ href "https://terminalcss.xyz" ]
+                    [ href "https://terminalcss.xyz"
+                    , target "_blank"
+                    , rel "noopener noreferrer"
+                    ]
                     [ text "terminal.css" ]
                 ]
             , br [] []

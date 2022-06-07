@@ -37,6 +37,7 @@ head _ =
         |> Head.rootLanguage
     , Head.rssLink "/feed.xml"
     , Head.icon [ ( 100, 100 ) ] MimeType.Jpeg iconUrl
+    , Head.metaName "theme-color" (Head.raw "#222225")
     ]
 
 
