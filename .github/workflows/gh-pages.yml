@@ -9,7 +9,8 @@ on:
       - main
   repository_dispatch:
     types:
-      - update_post
+      - update_posts
+      - update_about
 
 jobs:
   build_and_deploy:
