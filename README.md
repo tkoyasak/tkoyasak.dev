@@ -2,8 +2,8 @@
 
 ## Dev
 - Run dev server : `npm start`
-- Access http://localhost:1234 in browser
+- See the result : `http://localhost:1234`
 
 ## Credits
-- This website is built with [elm-pages](https://github.com/dillonkearns/elm-pages).
-- This website's theme is derived from [terminal.css](https://github.com/Gioni06/terminal.css).
+- This website is built with [elm-pages](https://github.com/dillonkearns/elm-pages)
+- This website's theme is derived from [terminal.css](https://github.com/Gioni06/terminal.css)
